@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>🎧 𝗠𝘂𝘀𝗶𝗰 𝗞𝗲𝘆𝗯𝗼𝗮𝗿𝗱 🎵</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="piano.png">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Erica+One);
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background: #284b63;
+            overflow: hidden;
+        }
+        
+        p {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 4em;
+            position: absolute;
+            margin: 0;
+            color: black;
+        }
+        
+        .container {
+            -webkit-perspective: 50em;
+            perspective: 100em;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .Teclado {
+            position: absolute;
+            width: 19.63em;
+            height: 17.4em;
+            border: 7px solid #FFFAF0;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            right: 7%;
+            top: 19.5em;
+            background: black;
+            -webkit-transform: rotateZ(0deg);
+            transform: rotateX(75deg) rotateY(0deg) rotateZ(0deg);
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+        
+        .tecla {
+            width: 6.1em;
+            height: 8em;
+            float: left;
+            margin: 5px 5px 5px 2px;
+            cursor: pointer;
+        }
+        
+        .tecla:before {
+            position: absolute;
+            content: "";
+            width: 6.1em;
+            height: 8em;
+            background: #FFFAF0;
+            -webkit-transition: all 0.2s;
+            transition: all 0.2s;
+            pointer-events: none;
+        }
+        
+        .tecla:hover:before {
+            background: #B0E0E6;
+            -webkit-transform: translate3d(0, 0, 20px);
+            transform: translate3d(0px, -10px, -5px);
+            box-shadow: 0px 25px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        #do {
+            position: absolute;
+            top: 12%;
+            left: 3%;
+        }
+        
+        #re {
+            position: absolute;
+            top: 12%;
+            left: 38%;
+        }
+        
+        #mi {
+            position: absolute;
+            top: 12%;
+            left: 71%;
+        }
+        
+        #fa {
+            position: absolute;
+            font-size: 4.5em;
+            top: 60%;
+            left: 3.5%;
+        }
+        
+        #so {
+            position: absolute;
+            font-size: 4.5em;
+            top: 60%;
+            left: 35%;
+        }
+        
+        #la {
+            position: absolute;
+            font-size: 4.5em;
+            top: 60%;
+            left: 69%;
+        }
+        
+        #si {
+            position: absolute;
+            font-size: 4.5em;
+            top: 108%;
+            left: 3.5%;
+        }
+        
+        .paloma {
+            position: absolute;
+            width: 15em;
+            left: 5em;
+            top: 1.5em;
+        }
+        
+        h1 {
+            position: absolute;
+            cursor: default;
+            top: 30px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 80px;
+            margin: auto;
+            display: block;
+            transform: translate(-2.5em, 1.3em);
+            -webkit-animation: bounce .3s ease infinite alternate;
+            font-family: 'Erica One';
+            font-size: 2rem;
+            text-align: center;
+            color: #fff;
+            padding: 2rem;
+            text-shadow: 0 1px 0 hotpink, 0 2px 0 hotpink, 0 3px 0 pink, 0 4px 0 pink, 0 5px 0 pink, 0 6px 0 transparent, 0 7px 0 transparent, 0 8px 0 transparent, 0 9px 0 transparent, 0 20px 20px white;
+        }
+        
+        @-webkit-keyframes bounce {
+            100% {
+                top: -30px;
+                text-shadow: 0 1px 0 pink, 0 2px 0 transparent, 0 3px 0 transparent, 0 4px 0 transparent, 0 5px 0 transparent, 0 6px 0 transparent, 0 7px 0 transparent, 0 8px 0 transparent, 0 9px 0 transparent, 0 30px 30px rgba(0, 0, 0, .3);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <img class="paloma" src="do.gif">
+        <div class="Teclado">
+            <div class="tecla" onclick="Sonido(0)">
+                <p id="do">DO</p>
+            </div>
+            <div class="tecla" onclick="Sonido(1)">
+                <p id="re">RE</p>
+            </div>
+            <div class="tecla" onclick="Sonido(2)">
+                <p id="mi">MI</p>
+            </div>
+            <div class="tecla" onclick="Sonido(3)">
+                <p id="fa">FA</p>
+            </div>
+            <div class="tecla" onclick="Sonido(4)">
+                <p id="so">SO</p>
+            </div>
+            <div class="tecla" onclick="Sonido(5)">
+                <p id="la">LA</p>
+            </div>
+            <div class="tecla" onclick="Sonido(6)">
+                <p id="si">SI</p>
+            </div>
+        </div>
+        <h1>MUSIC KEYBOARD</h1>
+    </div>
+
+    <script>
+        var Sonidos = [
+            261.63,
+            293.66,
+            329.63,
+            349.23,
+            392,
+            440,
+            493.88
+        ];
+
+        var context =
+            new(window.AudioContext || window.webkitAudioContext)();
+
+        function Sonido(nota) {
+            var osc = context.createOscillator();
+            osc.type = 'square';
+            osc.frequency.value = Sonidos[nota];
+            osc.connect(context.destination);
+            osc.start();
+            osc.stop(context.currentTime + .5);
+        }
+    </script>
+</body>
+
+</html>
